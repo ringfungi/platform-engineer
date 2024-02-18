@@ -32,8 +32,8 @@ jobs:
           echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
           
           # Build and push for x86_64
-          docker buildx build --platform linux/amd64 -t ringfungi/platform-engineer:latest --push .
+          docker buildx build --platform linux/amd64 -t $IMAGE_NAME::latest --push .
 
           # Build and push for arm
-          docker buildx build --platform linux/arm/v7 -t ringfungi/platform-engineer:latest-arm --push .
+          docker buildx build --platform linux/arm/v7 -t $IMAGE_NAME::latest-arm --push .
 

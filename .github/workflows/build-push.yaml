@@ -27,12 +27,13 @@ jobs:
         run: |
           docker buildx create --use
           docker buildx inspect --bootstrap
+
+          # Login to Docker Hub
+          echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
           
           # Build and push for x86_64
           docker buildx build --platform linux/amd64 -t ringfungi/platform-engineer:latest --push .
 
           # Build and push for arm
           docker buildx build --platform linux/arm/v7 -t ringfungi/platform-engineer:latest-arm --push .
-          
-          # Login to Docker Hub
-          echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+

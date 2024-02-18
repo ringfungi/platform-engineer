@@ -22,3 +22,16 @@ As part of this task you will need to:
 1. Fork this repository.
 1. Complete the task and commit it to your fork.
 1. Send us a link to your fork. If you would like to keep it private, please add `@MattiasAng`, `@zoni` and `@ja-sg` as collaborators.
+
+
+## Testing the setup locally 
+
+- Build the Docker image locally
+  - Open a terminal, navigate to the project directory and run the following command to build a Docker image:
+`docker build -t platform-engineer .`
+
+- Run the container locally with the following command to map port 8080 from the container to port 8080 on your host machine:
+
+`docker run -p 8080:8080 platform-engineer`
+
+- Access the app on http://localhost:8080. You should see the "Hello Platform Engineer candidate!" message

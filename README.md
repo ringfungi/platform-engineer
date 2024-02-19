@@ -28,10 +28,16 @@ As part of this task you will need to:
 
 - Build the Docker image locally
   - Open a terminal, navigate to the project directory and run the following command to build a Docker image:
-`docker build -t platform-engineer .`
+    
+    `docker build -t platform-engineer .`
 
-- Run the container locally with the following command to map port 8080 from the container to port 8080 on your host machine:
+- Run the container locally with the following commands to map port 8080 from the container to port 8080 on your host machine, while setting the `ARCH` variable to either x86_64 or ARM, depending on which architecture you want use:
+  - For x86_64:
+    
+    `docker run -p 8080:8080 -e ARCH=x86_64 platform-engineer`
 
-`docker run -p 8080:8080 platform-engineer`
+  - For ARM:
+    
+    `docker run -p 8080:8080 -e ARCH=arm platform-engineer`
 
 - Access the app on http://localhost:8080. You should see the "Hello Platform Engineer candidate!" message

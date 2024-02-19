@@ -40,7 +40,8 @@ As part of this task you will need to:
 ## Deploying the image to Docker Hub
 
 A push to this repository will trigger a GitHub Action. To set it up, add your username and Docker Hub token to your repository's secrets.
-The Action pipeline builds a multi-architecture image under emulation with QEMU and also buildx, by using platform flag to create Linux images for AMD 64-bit and Arm 64-bit. When you specify the tag during the docker pull command, Docker will automatically select the appropriate platform-specific image based on the architecture of the host system.
+
+The pipeline builds a multi-architecture image under emulation with QEMU and also buildx, by using the platform flag to create Linux images for AMD 64-bit and Arm 64-bit. Then, during the docker pull command, Docker will automatically select the appropriate platform-specific image based on the architecture of the host system.
 
 
 

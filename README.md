@@ -31,16 +31,16 @@ As part of this task you will need to:
     
     `docker build -t platform-engineer .`
 
-- Run the container locally with the following commands to map port 8080 from the container to port 8080 on your host machine, while setting the `ARCH` variable to either x86_64 or ARM, depending on which architecture you want use:
-  - For x86_64:
+- Run the container locally with the following commands to map port 8080 from the container to port 8080 on your host machine:
     
-    `docker run -p 8080:8080 -e ARCH=x86_64 platform-engineer`
+    `docker run -p 8080:8080 platform-engineer`
 
-  - For ARM:
-    
-    `docker run -p 8080:8080 -e ARCH=arm platform-engineer`
+- Access the app on http://localhost:8080. You should see the "Hello Platform Engineer candidate!" message.
 
-- Access the app on http://localhost:8080. You should see the "Hello Platform Engineer candidate!" message
+## Deploying the image to Docker Hub
 
-## Pushing the image to Docker Hub
+A push to this repository will trigger a GitHub Action. To set it up, add your username and Docker Hub token to your repository's secrets.
+The Action pipeline builds a multi-architecture image under emulation with QEMU and also buildx, by using platform flag to create Linux images for AMD 64-bit and Arm 64-bit. When you specify the tag during the docker pull command, Docker will automatically select the appropriate platform-specific image based on the architecture of the host system.
+
+
 

@@ -1,24 +1,23 @@
-# x86_64 build
-FROM golang:alpine AS build
+# Minimal base image
+FROM golang:1.21.6-alpine
+
 WORKDIR /app
-COPY . .
-RUN go build -o platform-engineer-x86_64 .
 
-# ARM build
-FROM golang:alpine AS build-arm
-WORKDIR /app
-COPY . .
-RUN GOARCH=arm GOARM=7 go build -o platform-engineer-arm .
+# Copy Go modules and dependencies to the image
+COPY go.mod ./
 
-# Minimal golang alpine container to run the app
-FROM golang:alpine
+# Download Go modules and dependencies
+RUN go mod download
 
-COPY --from=build /app/platform-engineer-x86_64 /app/platform-engineer-x86_64
-COPY --from=build-arm /app/platform-engineer-arm /app/platform-engineer-arm
+# Copy all the Go files
+COPY *.go ./
 
+# Compile app
+RUN go build -o /platform-engineer
+
+# Default network port
 ENV PORT=8080
 
 EXPOSE $PORT
 
-# Run the app based on the architecture
-CMD ["/bin/sh", "-c", "if [ \"$ARCH\" = \"arm\" ]; then /app/platform-engineer-arm; else /app/platform-engineer-x86_64; fi"]
+CMD [ "/platform-engineer" ]

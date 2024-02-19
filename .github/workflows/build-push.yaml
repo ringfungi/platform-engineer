@@ -22,8 +22,8 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Build and push
         env:
-        # Replace the repository and registry names with your own
-        REPO: "ringfungi/platform-engineer" 
+          # Replace the repository and registry names with your own
+          REPO: "ringfungi/platform-engineer" 
         uses: docker/build-push-action@v5
         with:
           context: .

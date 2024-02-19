@@ -41,3 +41,6 @@ As part of this task you will need to:
     `docker run -p 8080:8080 -e ARCH=arm platform-engineer`
 
 - Access the app on http://localhost:8080. You should see the "Hello Platform Engineer candidate!" message
+
+## Pushing the image to Docker Hub
+

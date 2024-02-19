@@ -6,34 +6,58 @@ on:
       - main
 
 jobs:
-  build-and-push:
+  docker:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-
+        uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v3
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: user/app:latest
 
-      - name: Build and push multi-arch images
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          IMAGE_NAME: "ringfungi/platform-engineer"
-        run: |
-          docker buildx create --use
-          docker buildx inspect --bootstrap
+# jobs:
+#   build-and-push:
+#     runs-on: ubuntu-latest
 
-          # Login to Docker Hub
-          echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+#     steps:
+#       - name: Checkout Repository
+#         uses: actions/checkout@v2
+
+#       - name: Set up QEMU
+#         uses: docker/setup-qemu-action@v2
+
+#       - name: Set up Docker Buildx
+#         uses: docker/setup-buildx-action@v1
+
+#       - name: Build and push multi-arch images
+#         env:
+#           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+#           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+#           # Replace the repository and registry names with your own
+#           REPO: "ringfungi/platform-engineer" 
+#         run: |
+#           docker buildx create --use
+#           docker buildx inspect --bootstrap
+
+#           # Login to Docker Hub
+#           echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
           
-          # Build and push for x86_64
-          docker buildx build --platform linux/amd64 -t $IMAGE_NAME:latest-x86_64 --push .
+#           # Build and push for x86_64
+#           docker buildx build --platform linux/amd64 -t $REPO:latest-x86_64 --push .
 
-          # Build and push for arm
-          docker buildx build --platform linux/arm/v7 -t $IMAGE_NAME:latest-arm --push .
+#           # Build and push for ARM
+#           docker buildx build --platform linux/arm/v7 -t $REPO:latest-arm --push .
 
